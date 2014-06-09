@@ -112,8 +112,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 											" Start zsh, use zv to source a clean zshrc for vim
 nnoremap <leader>b :ConqueTerm zsh <CR>
-
-" Macro remappings
+map <leader>n :38sp<CR><C-j><leader>b
 
 
 " Special settings
