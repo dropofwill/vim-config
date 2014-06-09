@@ -20,7 +20,6 @@ set showcmd					" Show incomplete commands
 set noerrorbells		" No dinging! 
 set scrolloff=4			" Pad lines verticaly by 5
 set hidden					" Hide buffers instead of yelling at me about it
-set cursorline			" Show where my cursor is with a horizontal line
 set ruler
 set mouse=a					" Enable mouse for all modes, not always available 
 set wildmenu				" Tab complete vim commands
@@ -29,6 +28,8 @@ set laststatus=2		" Always show status line
 
 
 
+" Show where my cursor is with a horizontal line, but only in active split
+set cursorline
 augroup BgHighlight
   autocmd!
   autocmd WinEnter * set cul
@@ -109,11 +110,10 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
-
+											" Start zsh, use zv to source a clean zshrc for vim
+nnoremap <leader>b :ConqueTerm zsh 
 
 " Macro remappings
-
 
 
 " Special settings
