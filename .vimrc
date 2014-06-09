@@ -25,7 +25,7 @@ set mouse=a					" Enable mouse for all modes, not always available
 set wildmenu				" Tab complete vim commands
 set wildmode=longest,list,full
 set laststatus=2		" Always show status line
-
+let g:loaded_matchparen=1
 
 
 " Show where my cursor is with a horizontal line, but only in active split
@@ -111,7 +111,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 											" Start zsh, use zv to source a clean zshrc for vim
-nnoremap <leader>b :ConqueTerm zsh 
+nnoremap <leader>b :ConqueTerm zsh <CR>
 
 " Macro remappings
 
