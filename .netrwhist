@@ -1,4 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/Users/willpaul/Sites/experiments'
-let g:netrw_dirhist_2='/Users/willpaul/Dropbox/Misc/d3'
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/Users/willpaul/Sites/global_code/morgan-franklin-ipo/app/views'
+let g:netrw_dirhist_2='/Users/willpaul/Sites/global_code/morgan-franklin-ipo/app/views/shared'
+let g:netrw_dirhist_3='/Users/willpaul/Sites/global_code/dj/data_process'
+let g:netrw_dirhist_4='/Users/willpaul/Documents/dotfiles/base16-iterm2'
