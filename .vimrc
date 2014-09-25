@@ -27,6 +27,7 @@ call vundle#end()
 
 
 " Autoindent plugin setup
+filetype off
 filetype plugin indent on
 " Stopped doing this in lieu of separate files for each language:
 "
@@ -41,7 +42,8 @@ set expandtab
 set autoindent
 " set nowrap
 set breakindent
-
+" Let me know when my lines are too damn long
+:set colorcolumn=81
 
 
 " Backspace anything in insert mode
@@ -49,8 +51,6 @@ set backspace=indent,eol,start
 set encoding=utf-8
 
 
-
-" Emmet Config, not currently using...
 "let g:user_emmet_install_global = 0	" Emmet plugin setup
 "autocmd FileType html,css,php EmmetInstall
 " Treat <li> and <p> tags like the block tags they are
@@ -174,7 +174,7 @@ nnoremap k gk
 map <Space> <Leader>
 noremap <Leader>x i
 " ; for faster commands
-nnoremap ; :
+"nnoremap ; :
 " Jump to new split with <space>w
 nnoremap <leader>w <C-w>v<C-w>l
 nnoremap <leader>e <C-w>s<C-w>j
