@@ -1,10 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/Users/willpaul/Sites/global_code/morgan-franklin-ipo/app/views'
-let g:netrw_dirhist_2='/Users/willpaul/Sites/global_code/morgan-franklin-ipo/app/views/shared'
-let g:netrw_dirhist_3='/Users/willpaul/Sites/global_code/dj/data_process'
-let g:netrw_dirhist_4='/Users/willpaul/Documents/dotfiles/base16-iterm2'
-let g:netrw_dirhist_5='/Users/willpaul/Sites/global_code/dj'
-let g:netrw_dirhist_6='/Users/willpaul/Sites/global_code/dj/data_process'
-let g:netrw_dirhist_7='/Users/willpaul/Sites/global_code/pres_tower/source'
-let g:netrw_dirhist_8='/Users/willpaul/Sites/global_code/pres_tower/source/stylesheets'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/Users/willpaul/Dropbox/RIT/_DATA/week3_hw'
+let g:netrw_dirhist_2='/Users/willpaul/Dropbox/RIT/_IMD/HWs/paul-will-hw1/draw'

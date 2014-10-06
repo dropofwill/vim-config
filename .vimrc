@@ -16,7 +16,7 @@ Plugin 'sophacles/vim-processing'
 Plugin 'chriskempson/base16-vim'
 Plugin 'slim-template/vim-slim'
 Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'bling/vim-bufferline'
+"Plugin 'bling/vim-bufferline'
 Plugin 'airblade/vim-gitgutter'
 "Plugin 'Valloric/YouCompleteMe'
 " Am also using Conque Term, installed manually
@@ -100,9 +100,9 @@ let g:loaded_matchparen=1
 
 
 " In many terminal emulators the mouse works just fine, so I enable it.
-if has('mouse')
-  set mouse=a
-endif
+"if has('mouse')
+  "set mouse=a
+"endif
 
 
 
@@ -128,6 +128,7 @@ set gdefault
 set incsearch
 set showmatch
 set hlsearch
+set spell " Looks nice with airline, so why not?
 
 
 
@@ -207,6 +208,14 @@ augroup pde
 	autocmd Filetype java :command! Pjb :!processing-java --present --sketch=$(pwd) --output=$(pwd)/tmp --force
 augroup END
 
+" Vim Praat task runner
+augroup pde
+	autocmd!
+	autocmd BufNewFile,BufRead *.pde setlocal filetype=java
+	autocmd Filetype java :command! Pj :!processing-java --run --sketch=$(pwd) --output=$(pwd)/tmp --force
+	autocmd Filetype java :command! Pjf :!processing-java --present --sketch=$(pwd) --output=$(pwd)/tmp --force
+	autocmd Filetype java :command! Pjb :!processing-java --present --sketch=$(pwd) --output=$(pwd)/tmp --force
+augroup END
 
 
 " Why is this not a built-in Vim script function?!
