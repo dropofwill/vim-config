@@ -43,11 +43,12 @@ set autoindent
 " set nowrap
 set breakindent
 " Let me know when my lines are too damn long
-:set colorcolumn=81
+set colorcolumn=80
 
 
 " Backspace anything in insert mode
 set backspace=indent,eol,start
+" Set the text encoding to handle utf-8
 set encoding=utf-8
 
 
@@ -85,13 +86,13 @@ set background=dark
 " Interface settings
 syntax on		        " Syntax highlighting
 set relativenumber	" Line numbers relative to cursor
-set number		      " But just for the current line
-set numberwidth=4
+set number		      " But ignore the current line
+set numberwidth=4   " How wide the line number column should be by default
 set showcmd		      " Show incomplete commands
 set noerrorbells	  " No dinging!
-set scrolloff=4		  " Pad lines verticaly by 4
+set scrolloff=4     " Pad lines vertically by 4
 set hidden		      " Hide buffers instead of yelling at me about it
-set ruler
+set ruler           " Tells you the coords of the cursor in the status line
 set wildmenu	    	" Tab complete vim commands
 set wildmode=longest,list,full
 set laststatus=2	  " Always show status line
@@ -118,17 +119,16 @@ set cursorline
 
 
 " Search/Regex settings
-set showmatch
 nnoremap <leader><space> :noh<cr>
 nnoremap / /\v
 vnoremap / /\v
-set ignorecase
-set smartcase
-set gdefault
-set incsearch
-set showmatch
-set hlsearch
-set spell " Looks nice with airline, so why not?
+"set ignorecase
+"set smartcase
+set gdefault    " Regex global by default
+set incsearch   " Show matches as you type
+set showmatch   " Visually flash matching brackets when typing
+set hlsearch    " Highlight all search matches not just the current one
+set spell       " Spell checker for Vim!
 
 
 
@@ -155,12 +155,18 @@ set ttyfast
 set modelines=0
 
 
+" Open last Vim command
+nnoremap <Right> :<Up>
+" Open last search result
+nnoremap <Left> /\v<Up>
 
-" Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
+" Bubble single lines
+nnoremap <Up> ddkP
+nnoremap <Down> ddp
+
+" Bubble multiple lines
+vnoremap <Up> xkP`[V`]
+vnoremap <Down> xp`[V`]
 
 
 
@@ -171,19 +177,23 @@ vnoremap <tab> %
 " Move screen lines not actual ones
 nnoremap j gj
 nnoremap k gk
+
 " Set my leader to space except for x,i modes
 map <Space> <Leader>
 noremap <Leader>x i
+
 " ; for faster commands
 "nnoremap ; :
 " Jump to new split with <space>w
 nnoremap <leader>w <C-w>v<C-w>l
 nnoremap <leader>e <C-w>s<C-w>j
+
 " Move around splits with ctrl movement keys
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
 " Start zsh, use zv to source a clean zshrc for vim
 nnoremap <leader>b :ConqueTerm zsh <CR>
 map <leader>n :38sp<CR><C-j><leader>b
@@ -192,7 +202,7 @@ map <leader>n :38sp<CR><C-j><leader>b
 map <leader>, :bp<CR>
 map <leader>. :bn<CR>
 
-ino kj <Esc>
+inoremap kj <Esc>
 
 
 map <leader>v :bp<bar>sp<bar>bn<bar>bd<CR>
@@ -200,15 +210,6 @@ map <leader>v :bp<bar>sp<bar>bn<bar>bd<CR>
 
 
 " Vim Processing Java runner
-augroup pde
-	autocmd!
-	autocmd BufNewFile,BufRead *.pde setlocal filetype=java
-	autocmd Filetype java :command! Pj :!processing-java --run --sketch=$(pwd) --output=$(pwd)/tmp --force
-	autocmd Filetype java :command! Pjf :!processing-java --present --sketch=$(pwd) --output=$(pwd)/tmp --force
-	autocmd Filetype java :command! Pjb :!processing-java --present --sketch=$(pwd) --output=$(pwd)/tmp --force
-augroup END
-
-" Vim Praat task runner
 augroup pde
 	autocmd!
 	autocmd BufNewFile,BufRead *.pde setlocal filetype=java
