@@ -1,7 +1,6 @@
 " Use Vim settings, not compatible with legacy Vi
 set nocompatible
 
-
 " Vundle
 " set the runtime path to include Vundle and initialize
 filetype off
@@ -9,16 +8,29 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " All the plugins
-Plugin 'scrooloose/nerdcommenter'
+"Plugin 'scrooloose/nerdcommenter'
+" Plugin 'tpope/vim-commentary'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'junegunn/goyo.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'bling/vim-airline'
 Plugin 'sophacles/vim-processing'
+Plugin 'jplaut/vim-arduino-ino'
 Plugin 'chriskempson/base16-vim'
 Plugin 'slim-template/vim-slim'
 Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'farseer90718/vim-taskwarrior'
+Plugin 'vim-ruby/vim-ruby'
+" Plugin 'vim-latex/vim-latex'
+Plugin 'glts/vim-texlog'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'mattn/emmet-vim'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'ton/vim-bufsurf'
+Plugin 'majutsushi/tagbar'
 "Plugin 'bling/vim-bufferline'
-Plugin 'airblade/vim-gitgutter'
-"Plugin 'Valloric/YouCompleteMe'
+" Plugin 'airblade/vim-gitgutter'
+" Plugin 'Valloric/YouCompleteMe'
 " Am also using Conque Term, installed manually
 
 " All of your Plugins must be added before the following line
@@ -64,8 +76,9 @@ set t_Co=256
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme="base16"
-" colorscheme base16-twilight
+let g:airline_theme="badwolf"
+" let g:airline_theme="base16"
+colorscheme base16-twilight
 
 " Show tabline for buffers when only one tab is being used
 let g:airline#extensions#tabline#enabled = 1
@@ -77,6 +90,12 @@ let g:airline#extensions#whitespace#mixed_indent_format = 'mixed[%s]'
 let g:airline#extensions#whitespace#symbol = '•'
 let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
+let g:syntastic_javascript_jshint_args = "browser:true"
+let g:syntastic_ruby_exec = "/Users/willpaul/.rubies/ruby-2.1.3/bin/ruby"
+
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+
 set laststatus=2
 set ttimeoutlen=0
 set background=dark
@@ -87,7 +106,7 @@ set background=dark
 syntax on		        " Syntax highlighting
 set relativenumber	" Line numbers relative to cursor
 set number		      " But ignore the current line
-set numberwidth=4   " How wide the line number column should be by default
+set numberwidth=3   " How wide the line number column should be by default
 set showcmd		      " Show incomplete commands
 set noerrorbells	  " No dinging!
 set scrolloff=4     " Pad lines vertically by 4
@@ -95,15 +114,26 @@ set hidden		      " Hide buffers instead of yelling at me about it
 set ruler           " Tells you the coords of the cursor in the status line
 set wildmenu	    	" Tab complete vim commands
 set wildmode=longest,list,full
+" Better tab completion, esp. nice for buffer navigation
+set wildchar=<Tab>
 set laststatus=2	  " Always show status line
 let g:loaded_matchparen=1
 
+" 
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 
 " In many terminal emulators the mouse works just fine, so I enable it.
-"if has('mouse')
-  "set mouse=a
-"endif
+if has('mouse')
+  set mouse=a
+endif
 
 
 
@@ -146,14 +176,20 @@ set noswapfile
 
 " Copy/Paste settings
 set copyindent
-"set pastetoggle=<f2>
-
+set pastetoggle=<f2>
 
 
 " Misc. Settings
 set ttyfast
 set modelines=0
 
+
+" Make Y work as intended, despite not being y compatible
+map Y y$
+
+" Don't overwrite register when pasting over something
+xnoremap p pgvy
+xnoremap P Pgvy
 
 " Open last Vim command
 nnoremap <Right> :<Up>
@@ -167,6 +203,10 @@ nnoremap <Down> ddp
 " Bubble multiple lines
 vnoremap <Up> xkP`[V`]
 vnoremap <Down> xp`[V`]
+
+" TagBar Toggle support
+nmap <Leader>t :TagbarToggle<CR>
+
 
 
 
@@ -201,6 +241,8 @@ map <leader>n :38sp<CR><C-j><leader>b
 " Leader , or . (think < >) for previous/next buffer
 map <leader>, :bp<CR>
 map <leader>. :bn<CR>
+map <leader>< :BufSurfBack<CR>
+map <leader>> :BufSurfForward<CR>
 
 inoremap kj <Esc>
 
@@ -208,6 +250,24 @@ inoremap kj <Esc>
 map <leader>v :bp<bar>sp<bar>bn<bar>bd<CR>
 
 
+
+function! s:goyo_enter()
+  " Switch the colorscheme to newsprint.vim when using Goyo no distraction mode
+  colorscheme newsprint
+  set nocursorline
+endfunction
+
+function! s:goyo_leave()
+  " Switch back to normal defaults
+  colorscheme base16-twilight
+  highlight Normal ctermbg=black
+  set cursorline
+endfunction
+
+autocmd User GoyoEnter nested call <SID>goyo_enter()
+autocmd User GoyoLeave nested call <SID>goyo_leave()
+
+command! Trim :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " Vim Processing Java runner
 augroup pde
@@ -220,15 +280,37 @@ augroup END
 
 
 " Why is this not a built-in Vim script function?!
-function! s:get_visual_selection()
-  let [lnum1, col1] = getpos("'<")[1:2]
-  let [lnum2, col2] = getpos("'>")[1:2]
-  let lines = getline(lnum1, lnum2)
-  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-  let lines[0] = lines[0][col1 - 1:]
-  return join(lines, "\n")
-endfunction
+" function! s:get_visual_selection()
+"   let [lnum1, col1] = getpos("'<")[1:2]
+"   let [lnum2, col2] = getpos("'>")[1:2]
+"   let lines = getline(lnum1, lnum2)
+"   let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+"   let lines[0] = lines[0][col1 - 1:]
+"   return join(lines, "\n")
+" endfunction
 
+
+" function s:find_jshintrc(dir)
+"     let l:found = globpath(a:dir, '.jshintrc')
+"     if filereadable(l:found)
+"         return l:found
+"     endif
+
+"     let l:parent = fnamemodify(a:dir, ':h')
+"     if l:parent != a:dir
+"         return s:find_jshintrc(l:parent)
+"     endif
+
+"     return "~/.jshintrc"
+" endfunction
+
+" function UpdateJsHintConf()
+"     let l:dir = expand('%:p:h')
+"     let l:jshintrc = s:find_jshintrc(l:dir)
+"     let g:syntastic_javascript_jshint_conf = l:jshintrc
+" endfunction
+
+" au BufEnter * call UpdateJsHintConf()
 
 
 " When editing a file, always jump to the last known cursor position.
@@ -241,3 +323,12 @@ autocmd BufReadPost *
 	\   exe "normal! g`\"" |
 	\ endif
 augroup END
+
+
+" OCaml Merlin configuration
+" requires you've already run `opam install merlin`
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+
+" require you've already run `opam install ocp-indent`
+execute ":source " . "/Users/willpaul/.opam/system/share/vim/syntax/ocp-indent.vim"
