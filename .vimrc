@@ -65,7 +65,7 @@ let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme="base16"
-colorscheme base16-twilight
+" colorscheme base16-twilight
 
 " Show tabline for buffers when only one tab is being used
 let g:airline#extensions#tabline#enabled = 1
