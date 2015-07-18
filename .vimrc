@@ -28,6 +28,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'ton/vim-bufsurf'
 Plugin 'majutsushi/tagbar'
+Plugin 'ervandew/supertab'
 "Plugin 'bling/vim-bufferline'
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'Valloric/YouCompleteMe'
@@ -119,15 +120,16 @@ set wildchar=<Tab>
 set laststatus=2	  " Always show status line
 let g:loaded_matchparen=1
 
-" 
+set omnifunc=syntaxcomplete#Complete
+" http://bit.ly/1GGgRd2
 set completeopt=longest,menuone
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+"   \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+"
+" inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+"   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 
 " In many terminal emulators the mouse works just fine, so I enable it.
